@@ -172,3 +172,84 @@ class Druid:
     def __str__(self):
         return f"Druid (Level {self.level})"
 
+class Cleric:
+    def __init__(self, level, wisdom_mod):
+        self.level = level
+        self.hit_dice = 8
+        self.max_hp = self.hit_dice + (self.level - 1) * (random.randint(1, self.hit_dice) + wisdom_mod)
+        self.current_hp = self.max_hp
+        self.proficiencies = {
+            "armor": ["light", "medium", "shield"],
+            "weapons": ["simple"],
+            "tools": [],
+            "saving_throws": ["wisdom", "charisma"],
+            "skills": ["history", "medicine", "insight", "religion", "persuasion"]
+        }
+        self.equipment = {
+            "weapon": ["mace", "warhammer"][random.randint(0, 1)],
+            "armor": ["scale_mail", "leather_armor", "chain_mail"][random.randint(0, 2)],
+            "shield": True,
+            "ranged_weapon": ["light_crossbow", "simple_weapon"][random.randint(0, 1)],
+            "quiver": 20,
+            "pack": ["priest_pack", "explorer_pack"][random.randint(0, 1)],
+            "holy_symbol": True
+        }
+        cleric = Cleric(3, 3)
+        print(cleric.max_hp)  # output: 24
+        print(cleric.proficiencies["armor"])  # output: ['light', 'medium', 'shield']
+        print(cleric.equipment["weapon"])  # output: 'warhammer'
+class Artificer:
+    def __init__(self, level, ability_scores):
+        self.level = level
+        self.hit_dice = "1d8"
+        self.hit_points = 8 + ability_scores["Constitution"]
+        self.proficiencies = {
+            "armor": ["light", "medium", "shields"],
+            "weapons": ["simple"],
+            "tools": ["thieves' tools", "tinker's tools", "one type of artisan's tools"],
+            "saving_throws": ["Constitution", "Intelligence"],
+            "skills": ["Perception", "History", "Sleight of Hand", "Arcana", "Medicine", "Nature", "Investigation"]
+        }
+        self.equipment = {
+            "weapons": ["simple melee weapon", "simple ranged weapon"],
+            "armor": ["leather armor", "scale mail armor"],
+            "tools": ["thieves' tools", "dungeoneer's pack"],
+            "misc": ["10 gold pieces"]
+        }
+
+        for i in range(2, self.level+1):
+            self.hit_points += max(1, int((1/2)*self.hit_dice[0]) + ability_scores["Constitution"])
+            self.hit_dice = f"{i}d8"
+
+        if "firearms proficiency" in self.proficiencies["tools"]:
+            self.proficiencies["weapons"].append("firearms")
+
+    def __str__(self):
+        return f"Artificer (Level {self.level})"
+
+class Warlock:
+    def __init__(self, level, ability_scores):
+        self.level = level
+        self.hit_dice = "1d8"
+        self.hit_points = 8 + ability_scores["Constitution"]
+        self.proficiencies = {
+            "armor": ["light"],
+            "weapons": ["simple"],
+            "tools": [],
+            "saving_throws": ["Wisdom", "Charisma"],
+            "skills": ["Choose two skills from Intimidation, History, Arcana, Deception, Nature, Investigation, or Religion"]
+        }
+        self.equipment = {
+            "weapons": ["a light crossbow and 20 bolts", "any simple weapon"],
+            "armor": ["leather armor"],
+            "tools": ["a component pouch or a arcane focus"],
+            "misc": ["a scholar's pack or a dungeoneer's pack"]
+        }
+
+        for i in range(2, self.level+1):
+            self.hit_points += max(1, int((1/2)*self.hit_dice[0]) + ability_scores["Constitution"])
+            self.hit_dice = f"{i}d8"
+
+    def __str__(self):
+        return f"Warlock (Level {self.level})"
+
